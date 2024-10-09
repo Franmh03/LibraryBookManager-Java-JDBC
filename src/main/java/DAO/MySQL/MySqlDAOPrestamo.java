@@ -14,7 +14,7 @@ public class MySqlDAOPrestamo implements DAO<Prestamo,Integer> {
 
     final String INSERT = "INSERT INTO prestamo(id_usuario, id_libro, fecha_prestamo) VALUES(?,?,?)";
     final String UPDATE = "UPDATE prestamo SET id_usuario = ?, id_libro = ?, fecha_prestamo = ? WHERE id_prestamo = ?";
-    final String DELETE = "DELETE FROM prestamo WHERE id_alumno = ?";
+    final String DELETE = "DELETE FROM prestamo WHERE id_prestamo = ?";
     final String GETALL = "SELECT id_prestamo, id_usuario, id_libro, fecha_prestamo FROM prestamo";
     final String GETONE = "SELECT id_prestamo, id_usuario, id_libro, fecha_prestamo FROM prestamo WHERE id_prestamo = ?";
     private Connection connection;
@@ -34,7 +34,7 @@ public class MySqlDAOPrestamo implements DAO<Prestamo,Integer> {
             stat = connection.prepareStatement(INSERT);
             stat.setInt(1, modelo.getIdUsuario());
             stat.setInt(2, modelo.getIdLibro());
-            stat.setDate(2, modelo.getFechaPrestamo());
+            stat.setDate(3, modelo.getFechaPrestamo());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("Puede que no se haya guardado");
             }
@@ -54,6 +54,7 @@ public class MySqlDAOPrestamo implements DAO<Prestamo,Integer> {
             stat.setInt(1, modelo.getIdUsuario());
             stat.setInt(2, modelo.getIdLibro());
             stat.setDate(3, modelo.getFechaPrestamo());
+            stat.setInt(4,modelo.getIdPrestamo());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("Puede que no se haya actualizado el registro");
             }

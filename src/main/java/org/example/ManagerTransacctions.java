@@ -4,10 +4,12 @@ import DAO.DAOException;
 import DAO.MySQL.MySqlDAOAutor;
 import DAO.MySQL.MySqlDAOLibro;
 import DAO.MySQL.MySqlDAOPrestamo;
+import DAO.MySQL.MySqlDAOUsuario;
 import DAO.MySQLDAOManager;
 import Model.Autor;
 import Model.Libro;
 import Model.Prestamo;
+import Model.Usuario;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -155,9 +157,90 @@ public class ManagerTransacctions {
         idUsuario = scanner.nextInt();
         System.out.println("Please enter the book's ID:");
         idLibro = scanner.nextInt();
-        System.out.println("Please enter the loan date (yyyy-mm-dd):");
-        fechaPrestamo = Date.valueOf(scanner.next());
+        fechaPrestamo = solicitarFechaPrestamo();
         return new Prestamo(idUsuario, idLibro, fechaPrestamo);
+    }
+
+    public Date solicitarFechaPrestamo() {
+        Scanner scanner = new Scanner(System.in);
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        boolean fechaValida = false;
+
+        while (!fechaValida) {
+            try {
+                // Solicitar el año
+                System.out.println("Please enter the loan year (yyyy):");
+                year = Integer.parseInt(scanner.nextLine());
+
+                // Solicitar el mes
+                System.out.println("Please enter the loan month (1-12):");
+                month = Integer.parseInt(scanner.nextLine());
+                if (month < 1 || month > 12) {
+                    throw new IllegalArgumentException("Month must be between 1 and 12.");
+                }
+
+                // Solicitar el día
+                System.out.println("Please enter the loan day (1-31):");
+                day = Integer.parseInt(scanner.nextLine());
+
+                // Validar la fecha
+                Date fechaPrestamo = new Date(year,month,day);
+                fechaValida = true; // Salimos del bucle
+
+                return fechaPrestamo;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter valid integers for year, month, and day.");
+            }
+        }
+
+        return null; // Esto no debería alcanzarse, pero se debe retornar algo.
+    }
+
+    public void transacctionUsuario (char option, MySQLDAOManager manager) throws DAOException {
+
+        MySqlDAOUsuario usuarioManager = manager.getDAOUsuario();
+
+        switch (option) {
+            case '1':
+                usuarioManager.insertar(solicitarUsuario());
+                System.out.println("Transaccion completada correctamente");
+                break;
+            case '2':
+                Usuario usuarioMod = solicitarUsuario();
+                usuarioMod.setIdUsuario(solicitarID());
+                usuarioManager.modificar(usuarioMod);
+                System.out.println("Transaccion completada correctamente");
+                break;
+            case '3':
+                usuarioManager.eliminar(solicitarID());
+                System.out.println("Transaccion completada correctamente");
+                break;
+            case '4':
+                Usuario usuarioObt = usuarioManager.obtener(solicitarID());
+                System.out.println(usuarioObt.toString());
+                System.out.println("Transaccion completada correctamente");
+                break;
+            case '5':
+                List<Usuario> usuarios = usuarioManager.obtenerTodos();
+                for (Usuario usuario : usuarios) {
+                    System.out.println(usuario.toString());
+                }
+                System.out.println("Transaccion completada correctamente");
+                break;
+        }
+    }
+
+    public Usuario solicitarUsuario() {
+        String nombre, apellidos;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Please enter the user's first name:");
+        nombre = scanner.nextLine().trim();
+        System.out.println("Please enter the user's last name:");
+        apellidos = scanner.nextLine().trim();
+        return new Usuario(nombre, apellidos);
     }
 
 

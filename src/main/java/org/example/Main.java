@@ -74,6 +74,8 @@ public class Main {
                     break;
                 case '4':
                     System.out.println("You selected to work with User.");
+                    char accionUsuario = solicitarAccion("User");
+                    managerTransacctions.transacctionUsuario(accionUsuario,manager);
                     solicitarOtra();
 
                     // Aquí puedes agregar las operaciones relacionadas con Usuario

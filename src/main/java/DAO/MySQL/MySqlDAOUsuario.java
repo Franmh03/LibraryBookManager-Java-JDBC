@@ -54,7 +54,7 @@ public class MySqlDAOUsuario implements DAO <Usuario,Integer> {
             stat = connection.prepareStatement(UPDATE);
             stat.setString(1,modelo.getNombre());
             stat.setString(2,modelo.getApellidos());
-            stat.setInt(4,modelo.getIdUsuario());
+            stat.setInt(3,modelo.getIdUsuario());
             if (stat.executeUpdate()==0){
                 throw new DAOException("Puede que el registro no haya sido modificado");
             }
