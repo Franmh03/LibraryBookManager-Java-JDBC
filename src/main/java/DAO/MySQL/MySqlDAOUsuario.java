@@ -68,17 +68,17 @@ public class MySqlDAOUsuario implements DAO <Usuario,Integer> {
     }
 
     @Override
-    public void eliminar(Usuario modelo) throws DAOException {
+    public void eliminar(Integer id) throws DAOException {
         PreparedStatement stat = null;
         try {
             stat = connection.prepareStatement(DELETE);
-            stat.setLong(1,modelo.getIdUsuario());
+            stat.setLong(1,id);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
         try {
             if (stat.executeUpdate() == 0) {
-                throw new DAOException("Puede que el registro "+ modelo.getIdUsuario() + " no se halla borrado");
+                throw new DAOException("Puede que el registro "+ id + " no se halla borrado");
             }
         }
         catch (SQLException e) {

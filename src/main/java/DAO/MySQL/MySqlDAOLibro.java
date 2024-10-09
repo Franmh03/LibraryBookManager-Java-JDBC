@@ -12,7 +12,7 @@ public class MySqlDAOLibro implements DAO<Libro,Integer> {
 
     final String INSERT = "INSERT INTO libro(titulo, id_autor, anio_publicacion) VALUES(?,?,?)";
     final String UPDATE = "UPDATE libro SET titulo = ?, id_autor = ?, anio_publicacion = ? WHERE id_libro = ?";
-    final String DELETE = "DELETE FROM libro WHERE id_alumno = ?";
+    final String DELETE = "DELETE FROM libro WHERE id_libro = ?";
     final String GETALL = "SELECT id_libro, titulo, id_autor, anio_publicacion FROM libro";
     final String GETONE = "SELECT id_libro, titulo, id_autor, anio_publicacion FROM libro WHERE id_libro = ?";
     private final Connection connection;
@@ -70,18 +70,18 @@ public class MySqlDAOLibro implements DAO<Libro,Integer> {
     }
 
     @Override
-    public void eliminar(Libro modelo) throws DAOException {
+    public void eliminar(Integer id) throws DAOException {
         //"DELETE FROM libro WHERE id_alumno = ?";
         PreparedStatement stat = null;
         try {
             stat = connection.prepareStatement(DELETE);
-            stat.setLong(1,modelo.getIdLibro());
+            stat.setLong(1,id);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
         try {
             if (stat.executeUpdate() == 0) {
-                throw new DAOException("Puede que el registro "+ modelo.getIdLibro() + " no se halla borrado");
+                throw new DAOException("Puede que el registro "+ id + " no se halla borrado");
             }
         }
         catch (SQLException e) {

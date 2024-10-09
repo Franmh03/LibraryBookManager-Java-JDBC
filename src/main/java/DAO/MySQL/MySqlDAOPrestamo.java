@@ -3,6 +3,7 @@ package DAO.MySQL;
 import DAO.DAO;
 import DAO.DAOException;
 import Model.Prestamo;
+import Model.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -64,13 +65,13 @@ public class MySqlDAOPrestamo implements DAO<Prestamo,Integer> {
     }
 
     @Override
-    public void eliminar(Prestamo modelo) throws DAOException {
+    public void eliminar(Integer id) throws DAOException {
         PreparedStatement stat = null;
         try {
             stat = connection.prepareStatement(DELETE);
-            stat.setLong(1, modelo.getIdPrestamo());
+            stat.setLong(1, id);
             if (stat.executeUpdate() == 0) {
-                throw new DAOException("Puede que el registro no se haya eliminado");
+                throw new DAOException("Puede que el registro " + id + " no se haya eliminado");
             }
         } catch (SQLException e) {
             throw new DAOException("Error en SQL", e);
@@ -100,7 +101,28 @@ public class MySqlDAOPrestamo implements DAO<Prestamo,Integer> {
 
     @Override
     public Prestamo obtener(Integer id) throws DAOException {
-        return null;
+        Prestamo prestamo = null;
+        PreparedStatement stat = null;
+        ResultSet rs = null;
+        try {
+            stat = connection.prepareStatement(GETONE);
+            stat.setInt(1, id);
+            rs = stat.executeQuery();
+            if (rs.next()) {
+                prestamo = convertirRsAmodelo(rs);
+            }
+            else {
+                throw new DAOException("No se encontro ningun registro con ese ID");
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("error en SQL",e);
+        }
+        finally {
+            closeResources(rs,stat);
+        }
+        return prestamo;
+
     }
 
     @Override

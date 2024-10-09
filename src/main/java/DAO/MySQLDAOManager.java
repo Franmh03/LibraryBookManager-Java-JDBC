@@ -62,19 +62,4 @@ public class MySQLDAOManager {
         }
         return DAOPrestamo;
     }
-
-    public static void main (String[] args) throws SQLException, DAOException {
-        MySQLDAOManager manager = new MySQLDAOManager("localhost","library_book_manager_jdbc");
-        List <Libro> libros = manager.getDAOLibro().obtenerTodos();
-        System.out.println(libros);
-
-        List <Autor> autors = manager.getDAOAutor().obtenerTodos();
-        System.out.println(autors);
-
-        List <Prestamo> prestamos = manager.getDAOPrestamo().obtenerTodos();
-        System.out.println(prestamos);
-
-        List <Usuario> usuarios = manager.getDAOUsuario().obtenerTodos();
-        System.out.println(usuarios);
-    }
 }

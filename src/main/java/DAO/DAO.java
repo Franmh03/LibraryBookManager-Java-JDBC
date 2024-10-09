@@ -7,7 +7,7 @@ public interface DAO <T,K>{
     //T es el tipo de modelo que vamos a devolver. (Alumno, asignatura, etc) y K el tipo de clave que devolvemos
     void insertar (T modelo) throws DAOException;
     void modificar (T modelo) throws DAOException;
-    void eliminar (T modelo) throws DAOException;
+    void eliminar (K id) throws DAOException;
     List<T> obtenerTodos() throws DAOException;
     T obtener (K id) throws DAOException;
 
