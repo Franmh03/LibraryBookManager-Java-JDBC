@@ -20,13 +20,19 @@ Working on this project has greatly helped me in understanding SQL databases and
 🔧 Technologies Used
 
 Java
+
 JDBC (Java Database Connectivity)
+
 MySQL
+
+
+================================================================================
+
 
 🚀 Getting Started
 Clone this repository:
 git clone https://github.com/YourUsername/LibraryBookManager-Java-JDBC.git
 
-Set up the MySQL database locally (see the SQL scripts in the db folder).
 
+Set up the MySQL database locally using the script. This will intialize the database and also the make some insets to test the manager
 Run the application through your IDE or the command line.
