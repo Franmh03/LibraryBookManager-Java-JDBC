@@ -34,5 +34,6 @@ Clone this repository:
 git clone https://github.com/YourUsername/LibraryBookManager-Java-JDBC.git
 
 
+You'll need MySQL workbench.
 Set up the MySQL database locally using the script. This will intialize the database and also the make some insets to test the manager
 Run the application through your IDE or the command line.
